@@ -93,24 +93,6 @@ namespace SlidingBlockPlatformer
                     game.Exit();
                 }
             }
-            else if (activeScreen == actionScreen)
-            {
-                if (CheckKey(Keys.Escape))
-                {
-                    activeScreen.Hide();
-                    activeScreen = startScreen;
-                    activeScreen.Show();
-                }
-            }
-            else if (activeScreen == editScreen)
-            {
-                if (CheckKey(Keys.Escape))
-                {
-                    activeScreen.Hide();
-                    activeScreen = startScreen;
-                    activeScreen.Show();
-                }
-            }
 
             oldKeyboardState = keyboardState;
         }

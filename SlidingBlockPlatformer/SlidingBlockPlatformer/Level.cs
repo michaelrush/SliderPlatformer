@@ -34,7 +34,8 @@ namespace SlidingBlockPlatformer
         {
             this.levelIndex = levelIndex;
             tilemap = new Tilemap(serviceProvider, levelIndex);
-            player = new Player(serviceProvider, Vector2.Zero); //tilemap.startPosition);
+            //LoadCompleteDelegate mDeleg = new LoadCompleteDelegate(loadComplete);
+            //mDeleg.BeginInvoke(serviceProvider, null, null);
         }
 
         /// <summary>

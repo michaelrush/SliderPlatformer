@@ -19,18 +19,17 @@ namespace SlidingBlockPlatformer
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Tilemap
+    public class ContentLoader : GameComponent
     {
-        public List<Tile> tiles = new List<Tile>();
         private ContentManager content;
-        private List<DataTypes.TileData> tilemap;
         private IAsyncResult asyncResult;
         private StorageDevice storageDevice;
         private StorageContainer storageContainer;
         private PlayerIndex playerIndex = PlayerIndex.One;
         private string filename = "";
+        private AsyncCallback callback;
 
-        enum LoadingState
+        public enum LoadingState
         {
             NotLoading,
             ReadyToSelectStorageDevice,
@@ -40,28 +39,23 @@ namespace SlidingBlockPlatformer
             OpeningStorageContainer,
             ReadyToLoad
         }
-        LoadingState loadingState = LoadingState.NotLoading;
+        public LoadingState loadingState = LoadingState.NotLoading;
 
         /// <summary>
         /// Loads the given level from the storage device
         /// </summary>
         /// <param name="serviceProvider">Provides the content reference</param>
         /// <param name="levelIndex">The level index to load</param>
-        public Tilemap(IServiceProvider serviceProvider, String levelIndex)
+        public ContentLoader(Game game, AsyncCallback callback, String filename) : base(game)
         {
-            content = new ContentManager(serviceProvider, "Content");
-            filename = "Tilemaps/Level-" + levelIndex + ".xml";
+            content = game.Content;
+            this.filename = filename;
+            loadingState = LoadingState.ReadyToSelectStorageDevice;
         }
 
         public void Update(GameTime gameTime)
         {
             UpdateLoading();
-        }
-
-        public void Requestload(AsyncCallback callback)
-        {
-            loadingState = LoadingState.ReadyToSelectStorageDevice;
-            callback.Invoke(null);
         }
 
         /// <summary>
@@ -141,20 +135,12 @@ namespace SlidingBlockPlatformer
         /// Loads the contents of the given file from the storage device into tiles
         /// </summary>
         /// <param name="filename"></param>
-        private void Load(string filename)
+        private Stream Load(string filename)
         {            
             // Open the file
             using (Stream stream = storageContainer.OpenFile(filename, FileMode.Open))
             {
-                // Read the data from the file
-                XmlSerializer serializer = new XmlSerializer(typeof(List<DataTypes.TileData>));
-                List<DataTypes.TileData> tiledata = (List<DataTypes.TileData>)serializer.Deserialize(stream);
-
-                tiles = new List<Tile>();
-                for (int i = 0; i < tiledata.Count; i++)
-                {
-                    tiles.Add(new Tile(new Vector2(tiledata[i].posX, tiledata[i].posY), content.Load<Texture2D>(tiledata[i].texturePath), tiledata[i].collision));
-                }
+                return stream;
             }
         }
     }

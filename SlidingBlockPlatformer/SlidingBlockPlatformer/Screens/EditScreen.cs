@@ -28,7 +28,7 @@ namespace SlidingBlockPlatformer
         private PlayerIndex playerIndex = PlayerIndex.One;
         private string filenameTemplate = "Tilemaps/Level-xxx.xml";
         private int filenameIndex = 0;
-
+        private ScreenManager screenManager;
         private DataTypes.TileData brownTemplate;
         private DataTypes.TileData redTemplate;
         private DataTypes.TileData greenTemplate;
@@ -52,6 +52,7 @@ namespace SlidingBlockPlatformer
         /// </summary>
         public EditScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
+            screenManager = (ScreenManager)game.Services.GetService(typeof(ScreenManager));
             this.spriteBatch = spriteBatch;
             brownTemplate = new DataTypes.TileData(0, 0, "Textures/brownBlock", DataTypes.TileCollision.Impassable);
             redTemplate = new DataTypes.TileData(0, 0, "Textures/redBlock", DataTypes.TileCollision.Impassable);
@@ -73,7 +74,8 @@ namespace SlidingBlockPlatformer
         }
 
         /// <summary>
-        /// Maps number keys to selection between the tile templates, and the 'S' key to requesting a save
+        /// Maps number keys to selection between the tile templates, and the 'S' key to requesting a save\
+        /// Escapes to start screen if espace key is pressed
         /// </summary>
         private void handleKey()
         {
@@ -102,6 +104,12 @@ namespace SlidingBlockPlatformer
             if (CheckKey(Keys.S) && savingState == SavingState.NotSaving)
             {
                 savingState = SavingState.ReadyToOpenStorageContainer;
+            }
+            if (CheckKey(Keys.Escape))
+            {
+                this.Hide();
+                screenManager.activeScreen = screenManager.startScreen;
+                screenManager.activeScreen.Show();
             }
             
             oldKeyboardState = keyboardState;
