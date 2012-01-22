@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlidingBlockPlatformer", "SlidingBlockPlatformer\SlidingBlockPlatformer\SlidingBlockPlatformer.csproj", "{ACA37AA0-26E2-44B8-B309-B4B240AAA21D}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "SlidingBlockPlatformerContent", "SlidingBlockPlatformer\SlidingBlockPlatformerContent\SlidingBlockPlatformerContent.contentproj", "{BD491CB0-E05C-4567-AD8D-CADD341D5B38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlidingBlockPlatformerContent", "SlidingBlockPlatformer\SlidingBlockPlatformerContent\SlidingBlockPlatformerContent.contentproj", "{BD491CB0-E05C-4567-AD8D-CADD341D5B38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{515A141E-CAD7-45FF-BBF4-F7BA50D9E6B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{ACA37AA0-26E2-44B8-B309-B4B240AAA21D}.Release|x86.Build.0 = Release|x86
 		{BD491CB0-E05C-4567-AD8D-CADD341D5B38}.Debug|x86.ActiveCfg = Debug|x86
 		{BD491CB0-E05C-4567-AD8D-CADD341D5B38}.Release|x86.ActiveCfg = Release|x86
+		{515A141E-CAD7-45FF-BBF4-F7BA50D9E6B8}.Debug|x86.ActiveCfg = Debug|x86
+		{515A141E-CAD7-45FF-BBF4-F7BA50D9E6B8}.Debug|x86.Build.0 = Debug|x86
+		{515A141E-CAD7-45FF-BBF4-F7BA50D9E6B8}.Release|x86.ActiveCfg = Release|x86
+		{515A141E-CAD7-45FF-BBF4-F7BA50D9E6B8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

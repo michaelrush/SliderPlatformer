@@ -16,13 +16,24 @@ namespace SlidingBlockPlatformer
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private KeyboardState keyboardState;
+        private KeyboardState oldKeyboardState;
+
+        private GameScreen activeScreen;
+        private StartScreen startScreen;
+        private ActionScreen actionScreen;
+        private EditScreen editScreen;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            this.Components.Add(new GamerServicesComponent(this));
+            graphics.PreferredBackBufferWidth = GameConstants.BackBufferWidth;
+            graphics.PreferredBackBufferHeight = GameConstants.BackBufferHeight;
         }
 
         /// <summary>
@@ -33,7 +44,20 @@ namespace SlidingBlockPlatformer
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            startScreen = new StartScreen(this, spriteBatch, Content.Load<SpriteFont>("menufont"), Content.Load<Texture2D>("alienmetal"));
+            Components.Add(startScreen);
+            startScreen.Hide();
+
+            //string path = StorageContainer.TitleLocation;
+            actionScreen = new ActionScreen(this, spriteBatch);
+            Components.Add(actionScreen);
+            actionScreen.Hide();
+
+            editScreen = new EditScreen(this, spriteBatch);
+            Components.Add(editScreen);
+            editScreen.Hide();
 
             base.Initialize();
         }
@@ -47,7 +71,8 @@ namespace SlidingBlockPlatformer
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            activeScreen = startScreen;
+            activeScreen.Show();
         }
 
         /// <summary>
@@ -66,14 +91,50 @@ namespace SlidingBlockPlatformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            handleInput();
+            base.Update(gameTime);
+        }        
+
+        private void handleInput()
+        {
+            keyboardState = Keyboard.GetState();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+               
+            if (activeScreen == startScreen)
+            {
 
-            // TODO: Add your update logic here
+                if (CheckKey(Keys.Enter))
+                {
+                    if (startScreen.SelectedIndex == 0)
+                    {
+                        activeScreen.Hide();
+                        activeScreen = actionScreen;
+                        activeScreen.Show();
+                    }
+                    if (startScreen.SelectedIndex == 1)
+                    {
+                        activeScreen.Hide();
+                        activeScreen = editScreen;
+                        activeScreen.Show();
+                    }
+                    if (startScreen.SelectedIndex == 2)
+                    {
+                        this.Exit();
+                    }
+                }
+            }
 
-            base.Update(gameTime);
+            oldKeyboardState = keyboardState;
         }
+
+        private bool CheckKey(Keys theKey)
+        {
+            return keyboardState.IsKeyUp(theKey) &&
+                oldKeyboardState.IsKeyDown(theKey);
+        }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -81,11 +142,12 @@ namespace SlidingBlockPlatformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
             base.Draw(gameTime);
+
+            spriteBatch.End();
         }
     }
 }

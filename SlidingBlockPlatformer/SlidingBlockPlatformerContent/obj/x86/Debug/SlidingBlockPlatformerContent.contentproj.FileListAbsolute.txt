@@ -1,0 +1,1 @@
+C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\SlidingBlockPlatformer\SlidingBlockPlatformerContent\obj\x86\Debug\ResolveAssemblyReference.cache
