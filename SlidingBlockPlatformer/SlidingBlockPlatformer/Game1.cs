@@ -18,13 +18,6 @@ namespace SlidingBlockPlatformer
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private KeyboardState keyboardState;
-        private KeyboardState oldKeyboardState;
-
-        private GameScreen activeScreen;
-        private StartScreen startScreen;
-        private ActionScreen actionScreen;
-        private EditScreen editScreen;
 
         public Game1()
         {
@@ -46,18 +39,7 @@ namespace SlidingBlockPlatformer
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            startScreen = new StartScreen(this, spriteBatch, Content.Load<SpriteFont>("menufont"), Content.Load<Texture2D>("alienmetal"));
-            Components.Add(startScreen);
-            startScreen.Hide();
-
-            //string path = StorageContainer.TitleLocation;
-            actionScreen = new ActionScreen(this, spriteBatch);
-            Components.Add(actionScreen);
-            actionScreen.Hide();
-
-            editScreen = new EditScreen(this, spriteBatch);
-            Components.Add(editScreen);
-            editScreen.Hide();
+            Components.Add(new ScreenManager(this, spriteBatch));
 
             base.Initialize();
         }
@@ -70,9 +52,6 @@ namespace SlidingBlockPlatformer
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            activeScreen = startScreen;
-            activeScreen.Show();
         }
 
         /// <summary>
@@ -81,7 +60,6 @@ namespace SlidingBlockPlatformer
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -91,50 +69,8 @@ namespace SlidingBlockPlatformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            handleInput();
             base.Update(gameTime);
-        }        
-
-        private void handleInput()
-        {
-            keyboardState = Keyboard.GetState();
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-               
-            if (activeScreen == startScreen)
-            {
-
-                if (CheckKey(Keys.Enter))
-                {
-                    if (startScreen.SelectedIndex == 0)
-                    {
-                        activeScreen.Hide();
-                        activeScreen = actionScreen;
-                        activeScreen.Show();
-                    }
-                    if (startScreen.SelectedIndex == 1)
-                    {
-                        activeScreen.Hide();
-                        activeScreen = editScreen;
-                        activeScreen.Show();
-                    }
-                    if (startScreen.SelectedIndex == 2)
-                    {
-                        this.Exit();
-                    }
-                }
-            }
-
-            oldKeyboardState = keyboardState;
-        }
-
-        private bool CheckKey(Keys theKey)
-        {
-            return keyboardState.IsKeyUp(theKey) &&
-                oldKeyboardState.IsKeyDown(theKey);
-        }
-
+        }   
 
         /// <summary>
         /// This is called when the game should draw itself.
