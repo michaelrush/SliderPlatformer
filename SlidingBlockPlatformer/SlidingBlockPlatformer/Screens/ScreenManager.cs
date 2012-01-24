@@ -11,11 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
-using DataTypes;
 
 namespace SlidingBlockPlatformer
 {
-    class ScreenManager : GameComponent
+    class ScreenManager : DrawableGameComponent
     {
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
@@ -37,16 +36,16 @@ namespace SlidingBlockPlatformer
         public override void Initialize()
         {
             startScreen = new StartScreen(game, spriteBatch, game.Content.Load<SpriteFont>("menufont"), game.Content.Load<Texture2D>("alienmetal"));
-            game.Components.Add(startScreen);
+            startScreen.Initialize();
             startScreen.Hide();
 
             //string path = StorageContainer.TitleLocation;
             actionScreen = new ActionScreen(game, spriteBatch);
-            game.Components.Add(actionScreen);
+            actionScreen.Initialize();
             actionScreen.Hide();
 
             editScreen = new EditScreen(game, spriteBatch);
-            game.Components.Add(editScreen);
+            editScreen.Initialize();
             editScreen.Hide();
 
             activeScreen = startScreen;
@@ -58,6 +57,7 @@ namespace SlidingBlockPlatformer
         public override void Update(GameTime gameTime)
         {
             handleInput();
+            activeScreen.Update(gameTime);
         }
 
         private void handleInput()
@@ -69,7 +69,6 @@ namespace SlidingBlockPlatformer
 
             if (activeScreen == startScreen)
             {
-
                 if (CheckKey(Keys.Enter))
                 {
                     if (startScreen.SelectedIndex == 0)
@@ -89,6 +88,28 @@ namespace SlidingBlockPlatformer
                         game.Exit();
                     }
                 }
+                if (CheckKey(Keys.Escape))
+                {
+                    game.Exit();
+                }
+            }
+            else if (activeScreen == actionScreen)
+            {
+                if (CheckKey(Keys.Escape))
+                {
+                    activeScreen.Hide();
+                    activeScreen = startScreen;
+                    activeScreen.Show();
+                }
+            }
+            else if (activeScreen == editScreen)
+            {
+                if (CheckKey(Keys.Escape))
+                {
+                    activeScreen.Hide();
+                    activeScreen = startScreen;
+                    activeScreen.Show();
+                }
             }
 
             oldKeyboardState = keyboardState;
@@ -98,6 +119,11 @@ namespace SlidingBlockPlatformer
         {
             return keyboardState.IsKeyUp(theKey) &&
                 oldKeyboardState.IsKeyDown(theKey);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            activeScreen.Draw(gameTime);
         }
     }
 }

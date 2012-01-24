@@ -19,14 +19,17 @@ namespace SlidingBlockPlatformer
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        private const int BackBufferWidth = 960;
+        private const int BackBufferHeight = 600;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             this.Components.Add(new GamerServicesComponent(this));
-            graphics.PreferredBackBufferWidth = GameConstants.BackBufferWidth;
-            graphics.PreferredBackBufferHeight = GameConstants.BackBufferHeight;
+            graphics.PreferredBackBufferWidth = BackBufferWidth;
+            graphics.PreferredBackBufferHeight = BackBufferHeight;
         }
 
         /// <summary>

@@ -89,7 +89,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\SlidingBlockPlatformer\SlidingBlockPlatformer\bin\x86\Debug\Content\Tilemaps\Level-1.0.xnb</Output>
-      <Time>2012-01-22T14:49:11.2086786-08:00</Time>
+      <Time>2012-01-24T00:00:11.0693918-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -129,7 +129,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\bin\x86\Debug\DataTypes.dll</Key>
-        <Value>2012-01-22T14:40:52.2251384-08:00</Value>
+        <Value>2012-01-24T00:03:05.5923739-08:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>

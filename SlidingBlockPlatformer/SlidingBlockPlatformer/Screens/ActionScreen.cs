@@ -14,15 +14,13 @@ namespace SlidingBlockPlatformer
 
         public ActionScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
-            level = new Level(game, "1.0");
+            level = new Level(game.Services, "1.0");
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             level.Update(gameTime);
-
-            //Check for pause or exit
         }
 
         public override void Draw(GameTime gameTime)

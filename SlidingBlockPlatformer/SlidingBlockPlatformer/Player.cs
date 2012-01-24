@@ -15,40 +15,28 @@ namespace SlidingBlockPlatformer
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Player : Microsoft.Xna.Framework.GameComponent
+    public class Player
     {
         public Vector2 position;
         public Vector2 velocity;
-        public Vector2 blockIndex;
         public float speed;
         public Texture2D sprite;
 
-        public Player(Game game, Vector2 blockIndex) : base(game)
+        public Player(IServiceProvider serviceProvider, Vector2 position)
         {
+            ContentManager content = new ContentManager(serviceProvider, "Content");
             // TODO: Construct any child components here
-            position = GameConversions.indexToPosition(blockIndex);
+            this.position = position;
             velocity = new Vector2();
-            this.blockIndex = blockIndex; 
             speed = .25f;
-            sprite = game.Content.Load<Texture2D>("Textures/purpleBlock");
-        }
-
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
-        public override void Initialize()
-        {
-            // TODO: Add your initialization code here
-
-            base.Initialize();
+            sprite = content.Load<Texture2D>("Textures/purpleBlock");
         }
 
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             Vector2 dP = new Vector2(gameTime.ElapsedGameTime.Milliseconds*speed,gameTime.ElapsedGameTime.Milliseconds*speed);
             KeyboardState ks = Keyboard.GetState();
@@ -70,15 +58,11 @@ namespace SlidingBlockPlatformer
             {
                 position.Y += dP.Y;
             }
-
-            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            spriteBatch.Begin();
             spriteBatch.Draw(sprite, position, Color.White);
-            spriteBatch.End();
         }
     }
 }

@@ -11,23 +11,22 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
-using DataTypes;
 
 namespace SlidingBlockPlatformer
 {
     class EditScreen : GameScreen
     {
-        public List<Tile> tilemap;
+        public List<DataTypes.TileData> tilemap;
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
         private MouseState mouseState;
         private MouseState oldMouseState;
         private Game game;
-        private TileData brownTemplate;
-        private TileData redTemplate;
-        private TileData greenTemplate;
-        private TileData blueTemplate;
-        private TileData tileTemplate;
+        private DataTypes.TileData brownTemplate;
+        private DataTypes.TileData redTemplate;
+        private DataTypes.TileData greenTemplate;
+        private DataTypes.TileData blueTemplate;
+        private DataTypes.TileData tileTemplate;
         private SpriteBatch spriteBatch;
 
         private IAsyncResult result;
@@ -38,12 +37,12 @@ namespace SlidingBlockPlatformer
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
-            brownTemplate = new TileData("Textures/brownBlock", 0, 0, 0, GameConstants.TileSize, GameConstants.TileSize);
-            redTemplate = new TileData("Textures/redBlock", 0, 0, 0, GameConstants.TileSize, GameConstants.TileSize);
-            greenTemplate = new TileData("Textures/greenBlock", 0, 0, 0, GameConstants.TileSize, GameConstants.TileSize);
-            blueTemplate = new TileData("Textures/blueBlock", 0, 0, 0, GameConstants.TileSize, GameConstants.TileSize);
+            brownTemplate = new DataTypes.TileData(0, 0, "Textures/brownBlock", 0); //DataTypes.TileCollision.Impassable);
+            redTemplate = new DataTypes.TileData(0, 0, "Textures/redBlock", 0); //DataTypes.TileCollision.Impassable);
+            greenTemplate = new DataTypes.TileData(0, 0, "Textures/greenBlock", 0); //DataTypes.TileCollision.Impassable);
+            blueTemplate = new DataTypes.TileData(0, 0, "Textures/blueBlock", 0); //DataTypes.TileCollision.Impassable);
             tileTemplate = brownTemplate;
-            tilemap = new List<Tile>();
+            tilemap = new List<DataTypes.TileData>();
         }
 
         public override void Update(GameTime gameTime)
@@ -51,8 +50,6 @@ namespace SlidingBlockPlatformer
             base.Update(gameTime);
             handleKey();
             handleClick();
-            
-            //Check for pause or exit
         }
 
         private void handleKey()
@@ -97,27 +94,25 @@ namespace SlidingBlockPlatformer
 
             if (CheckClick("left"))
             {
-                Vector2 index = GameConversions.positionToIndex(new Vector2(mouseState.X, mouseState.Y));
-                foreach (Tile t in tilemap)
+                Vector2 position = new Vector2(mouseState.X, mouseState.Y);
+                foreach (DataTypes.TileData t in tilemap)
                 {
-                    if (t.blockIndex.X == index.X && t.blockIndex.Y == index.Y)
+                    if (GameConversions.toTilePosition(new Vector2(t.posX, t.posY)) == GameConversions.toTilePosition(position))
                     {
                         tilemap.Remove(t);
                         break;
                     }
                 }
-                tileTemplate.blockX = (int) index.X;
-                tileTemplate.blockY = (int) index.Y;
-                tilemap.Add(new Tile(game, tileTemplate));
+
+                tilemap.Add(new DataTypes.TileData((int)position.X, (int)position.Y, tileTemplate.texturePath, tileTemplate.collision));
             }
             if (CheckClick("right"))
             {
-                Vector2 index = GameConversions.positionToIndex(new Vector2((int)mouseState.X, (int)mouseState.Y));
-                foreach (Tile t in tilemap)
+                Vector2 position = new Vector2(mouseState.X, mouseState.Y);
+                foreach (DataTypes.TileData t in tilemap)
                 {
-                    if (t.blockIndex.X == index.X && t.blockIndex.Y == index.Y)
+                    if (GameConversions.toTilePosition(new Vector2(t.posX, t.posY)) == GameConversions.toTilePosition(position))
                     {
-                        Console.Out.WriteLine("removing " + t.blockIndex.X + ", " + t.blockIndex.Y);
                         tilemap.Remove(t);
                         break;
                     }
@@ -131,12 +126,10 @@ namespace SlidingBlockPlatformer
         {
             if (button == "left")
             {
-                //return mouseState.LeftButton == ButtonState.Released && oldMouseState.LeftButton == ButtonState.Pressed;
                 return mouseState.LeftButton == ButtonState.Pressed;
             }
             else if (button == "right")
             {
-                //return mouseState.RightButton == ButtonState.Released && oldMouseState.RightButton == ButtonState.Pressed;
                 return mouseState.RightButton == ButtonState.Pressed;
             }
             return false;
@@ -144,24 +137,13 @@ namespace SlidingBlockPlatformer
 
         private void saveMap()
         {
-            /*
-            XElement xel = new XElement("Tilemap-test");
-            xel.Add(tiles);
-            xel.Save("Tilemap-test.xml");*/
-
+            // Set the request flag
             if ((!Guide.IsVisible) && (GameSaveRequested == false))
             {
                 GameSaveRequested = true;
-                result = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
+                result = StorageDevice.BeginShowSelector(
+                        PlayerIndex.One, null, null);
             }
-            
-
-            /*AsyncCallback callback = new AsyncCallback(selectedDevice);
-            IAsyncResult result = StorageDevice.BeginShowSelector(callback, null);
-            result.AsyncWaitHandle.WaitOne();
-            StorageDevice device = StorageDevice.EndShowSelector(result);
-            result.AsyncWaitHandle.Close();*/
-            
         }
 
         private void checkSave()
@@ -177,47 +159,55 @@ namespace SlidingBlockPlatformer
             }
         }
 
+        /// <summary>
+        /// This method serializes a data object into
+        /// the StorageContainer for this game.
+        /// </summary>
+        /// <param name="device"></param>
         private void doSaveGame(StorageDevice device)
         {
-            TileData[] tiles = new TileData[tilemap.Count()];
-            List<Tile>.Enumerator it = tilemap.GetEnumerator();
-            int cnt = 0;
-            while (it.MoveNext())
-            {
-                Tile t = it.Current;
-                tiles[cnt] = new TileData(t.texture.Name, (DataTypes.TileCollision)t.collision, (int)t.blockIndex.X, (int)t.blockIndex.Y, t.width, t.height);
-                cnt++;
-            }
+            // Create the data to save.
+            DataTypes.TileData[] tiles = new DataTypes.TileData[tilemap.Count()];
 
-            Console.Out.WriteLine(tiles[0].texturePath);
-            Console.Out.WriteLine(tiles[1].collision);
+            // Open a storage container.
+            IAsyncResult result =
+                device.BeginOpenContainer("StorageDemo", null, null);
 
+            // Wait for the WaitHandle to become signaled.
+            result.AsyncWaitHandle.WaitOne();
 
-            IAsyncResult res = device.BeginOpenContainer("StorageDemo", null, null);
-            res.AsyncWaitHandle.WaitOne();
-            StorageContainer container = device.EndOpenContainer(res);
-            res.AsyncWaitHandle.Close();
-            String filename = "testtmp2.xml";
-            if (!container.FileExists(filename))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<TileData>));
-                Stream stream = container.CreateFile(filename);
-                Console.Out.WriteLine(container.DisplayName);
-                Console.Out.WriteLine(container.ToString());
-                serializer.Serialize(stream, tiles);
-                stream.Close();
-            }
+            StorageContainer container = device.EndOpenContainer(result);
+
+            // Close the wait handle.
+            result.AsyncWaitHandle.Close();
+
+            string filename = "leveltest.xml";
+
+            // Check to see whether the save exists.
+            if (container.FileExists(filename))
+                // Delete it so that we can create one fresh.
+                container.DeleteFile(filename);
+
+            // Create the file.
+            Stream stream = container.CreateFile(filename);
+
+            // Convert the object to XML data and put it in the stream.      
+            XmlSerializer serializer = new XmlSerializer(typeof(DataTypes.TileData));
+            serializer.Serialize(Console.Out, tilemap);
+
+            // Close the file.
+            stream.Close();
+
+            // Dispose the container, to commit changes.
             container.Dispose();
-            
-            
         }
-
+        
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            foreach (Tile t in tilemap)
+            foreach (DataTypes.TileData t in tilemap)
             {
-                spriteBatch.Draw(t.texture, t.position, Color.White);
+                spriteBatch.Draw(game.Content.Load<Texture2D>(t.texturePath), new Vector2(t.posX, t.posY), Color.White);
             }
             spriteBatch.DrawString(game.Content.Load<SpriteFont>("menufont"), tileTemplate.texturePath, Vector2.Zero, Color.Black);
             spriteBatch.End();

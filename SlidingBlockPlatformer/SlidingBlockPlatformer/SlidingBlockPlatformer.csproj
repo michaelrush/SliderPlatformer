@@ -110,7 +110,6 @@
     <Compile Include="Screens\ActionScreen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\EditScreen.cs" />
-    <Compile Include="GameConstants.cs" />
     <Compile Include="GameConversions.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Level.cs" />
@@ -129,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataTypes\DataTypes.csproj">
-      <Project>{515A141E-CAD7-45FF-BBF4-F7BA50D9E6B8}</Project>
+      <Project>{6FEF4AF3-808F-41CD-B1C8-E9F80878BF00}</Project>
       <Name>DataTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\SlidingBlockPlatformerContent\SlidingBlockPlatformerContent.contentproj">

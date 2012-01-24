@@ -18,35 +18,46 @@ namespace SlidingBlockPlatformer
     {
         private Player player;
         private Tilemap tilemap;
-        //private FoeList foes;
-        //private ObjectList objects;
+
         private String levelIndex;
-        private Game game;
 
-        public Level(Game game, String index)
+        /// <summary>
+        /// Constructs a new level.
+        /// </summary>
+        /// <param name="game">
+        /// The game object that will be used to contruct the level components
+        /// </param>
+        /// <param name="levelIndex">
+        /// The name of the level file to be loaded
+        /// </param>
+        public Level(IServiceProvider serviceProvider, String levelIndex)
         {
-            levelIndex = index;
-            this.game = game;
-            player = new Player(game, new Vector2(0,8));
-            tilemap = new Tilemap(game, levelIndex);
-            game.Components.Add(tilemap);
+            this.levelIndex = levelIndex;
+            tilemap = new Tilemap(serviceProvider, levelIndex);
+            player = new Player(serviceProvider, Vector2.Zero); //tilemap.startPosition);
         }
 
-        public void Initialize(GameTime gameTime)
-        {
-        }
-
+        /// <summary>
+        /// Updates all objects in the world and performs collision between them
+        /// </summary>
         public void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-            tilemap.Update(gameTime);
-            //check for collisions through CollisionManager after each update?
+            //tilemap.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draw everything in the level from background to foreground.
+        /// </summary>
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            tilemap.Draw(spriteBatch, graphics);
+            spriteBatch.Begin();
+            foreach (Tile t in tilemap.tiles)
+            {
+                spriteBatch.Draw(t.texture, t.position, Color.White);
+            }
             player.Draw(spriteBatch, graphics);
+            spriteBatch.End();
         }
     }
 }

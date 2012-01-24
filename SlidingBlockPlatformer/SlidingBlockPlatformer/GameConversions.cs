@@ -14,14 +14,9 @@ namespace SlidingBlockPlatformer
 {
     public static class GameConversions
     {
-        public static Vector2 positionToIndex(Vector2 pos)
+        public static Vector2 toTilePosition(Vector2 pos)
         {
-            return new Vector2((int) (pos.X / GameConstants.TileSize), (int) (pos.Y / GameConstants.TileSize));
-        }
-
-        public static Vector2 indexToPosition(Vector2 index)
-        {
-            return new Vector2(index.X * GameConstants.TileSize, index.Y * GameConstants.TileSize);
+            return new Vector2((int)Math.Round(pos.X / Tile.Size.X) * Tile.Size.X, (int)Math.Round(pos.Y / Tile.Size.Y) * Tile.Size.Y);
         }
     }
 }
