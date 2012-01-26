@@ -1,6 +1,0 @@
-C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\bin\x86\Debug\DataTypes.dll
-C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\bin\x86\Debug\DataTypes.pdb
-C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\obj\x86\Debug\DataTypes.dll
-C:\Users\Michael\Documents\Visual Studio 2010\Projects\SlidingBlockPlatformer\DataTypes\obj\x86\Debug\DataTypes.pdb
