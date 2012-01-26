@@ -43,7 +43,7 @@ namespace SlidingBlockPlatformer
         public void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-            //tilemap.Update(gameTime);
+            tilemap.Update(gameTime);
         }
 
         /// <summary>
@@ -52,9 +52,12 @@ namespace SlidingBlockPlatformer
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
             spriteBatch.Begin();
-            foreach (Tile t in tilemap.tiles)
+            if (tilemap.tiles != null)
             {
-                spriteBatch.Draw(t.texture, t.position, Color.White);
+                foreach (Tile t in tilemap.tiles)
+                {
+                    spriteBatch.Draw(t.texture, t.position, Color.White);
+                }
             }
             player.Draw(spriteBatch, graphics);
             spriteBatch.End();

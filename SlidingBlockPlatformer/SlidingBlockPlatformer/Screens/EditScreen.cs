@@ -26,7 +26,7 @@ namespace SlidingBlockPlatformer
         private StorageDevice storageDevice;
         private StorageContainer storageContainer;
         private PlayerIndex playerIndex = PlayerIndex.One;
-        private string filenameTemplate = "Tilemaps/level-xxx.0.xml";
+        private string filenameTemplate = "Tilemaps/Level-xxx.xml";
         private int filenameIndex = 0;
 
         private DataTypes.TileData brownTemplate;

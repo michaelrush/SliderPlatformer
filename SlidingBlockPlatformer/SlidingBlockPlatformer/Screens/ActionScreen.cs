@@ -14,7 +14,7 @@ namespace SlidingBlockPlatformer
 
         public ActionScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
-            level = new Level(game.Services, "1.0");
+            level = new Level(game.Services, "1");
         }
 
         public override void Update(GameTime gameTime)
