@@ -16,46 +16,69 @@ namespace SlidingBlockPlatformer
 {
     class EditScreen : GameScreen
     {
-        public List<DataTypes.TileData> tilemap;
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
         private MouseState mouseState;
         private MouseState oldMouseState;
-        private Game game;
+
+        private List<DataTypes.TileData> tilemap;
+        private IAsyncResult asyncResult;
+        private StorageDevice storageDevice;
+        private StorageContainer storageContainer;
+        private PlayerIndex playerIndex = PlayerIndex.One;
+        private string filenameTemplate = "Tilemaps/level-xxx.0.xml";
+        private int filenameIndex = 0;
+
         private DataTypes.TileData brownTemplate;
         private DataTypes.TileData redTemplate;
         private DataTypes.TileData greenTemplate;
         private DataTypes.TileData blueTemplate;
         private DataTypes.TileData tileTemplate;
-        private SpriteBatch spriteBatch;
 
-        private IAsyncResult result;
-        private Object stateobj;
-        private bool GameSaveRequested = false;
+        enum SavingState
+        {
+            NotSaving,
+            ReadyToSelectStorageDevice,
+            SelectingStorageDevice,
 
+            ReadyToOpenStorageContainer,    // once we have a storage device start here
+            OpeningStorageContainer,
+            ReadyToSave
+        }
+        SavingState savingState = SavingState.NotSaving;
+
+        /// <summary>
+        /// Constructor for the level editor
+        /// </summary>
         public EditScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
-            this.game = game;
             this.spriteBatch = spriteBatch;
-            brownTemplate = new DataTypes.TileData(0, 0, "Textures/brownBlock", 0); //DataTypes.TileCollision.Impassable);
-            redTemplate = new DataTypes.TileData(0, 0, "Textures/redBlock", 0); //DataTypes.TileCollision.Impassable);
-            greenTemplate = new DataTypes.TileData(0, 0, "Textures/greenBlock", 0); //DataTypes.TileCollision.Impassable);
-            blueTemplate = new DataTypes.TileData(0, 0, "Textures/blueBlock", 0); //DataTypes.TileCollision.Impassable);
+            brownTemplate = new DataTypes.TileData(0, 0, "Textures/brownBlock", DataTypes.TileCollision.Impassable);
+            redTemplate = new DataTypes.TileData(0, 0, "Textures/redBlock", DataTypes.TileCollision.Impassable);
+            greenTemplate = new DataTypes.TileData(0, 0, "Textures/greenBlock", DataTypes.TileCollision.Impassable);
+            blueTemplate = new DataTypes.TileData(0, 0, "Textures/blueBlock", DataTypes.TileCollision.Impassable);
             tileTemplate = brownTemplate;
             tilemap = new List<DataTypes.TileData>();
         }
 
+        /// <summary>
+        /// Handles mouse inputs and checks for save requests
+        /// </summary>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             handleKey();
             handleClick();
+            UpdateSaving();
         }
 
+        /// <summary>
+        /// Maps number keys to selection between the tile templates, and the 'S' key to requesting a save
+        /// </summary>
         private void handleKey()
         {
             keyboardState = Keyboard.GetState();
-            // Allows the game to exit
+
             if (CheckKey(Keys.D1))
             {
                 tileTemplate = brownTemplate;
@@ -72,46 +95,54 @@ namespace SlidingBlockPlatformer
             {
                 tileTemplate = greenTemplate;
             }
-            if (CheckKey(Keys.S))
+            if (CheckKey(Keys.Back) || CheckKey(Keys.Delete))
             {
-                saveMap();
+                tilemap.Clear();
             }
-            checkSave();
+            if (CheckKey(Keys.S) && savingState == SavingState.NotSaving)
+            {
+                savingState = SavingState.ReadyToOpenStorageContainer;
+            }
             
-
             oldKeyboardState = keyboardState;
         }
 
+        /// <summary>
+        /// Checks if a key is being released
+        /// </summary>
+        /// <param name="theKey">The key value to be evaluated</param>
         private bool CheckKey(Keys theKey)
         {
-            return keyboardState.IsKeyUp(theKey) &&
-                oldKeyboardState.IsKeyDown(theKey);
+            return keyboardState.IsKeyUp(theKey) && oldKeyboardState.IsKeyDown(theKey);
         }
 
+        /// <summary>
+        /// Handles mouse events. Left clicking adds or overwrites blocks to the tilemap at the intersecting tile position. 
+        /// Right clicking removed blocks at the intersecting tile position
+        /// </summary>
         private void handleClick()
         {
             mouseState = Mouse.GetState();
+            Vector2 clickTilePosition = GameConversions.toTilePosition(new Vector2(mouseState.X, mouseState.Y));
 
             if (CheckClick("left"))
             {
-                Vector2 position = new Vector2(mouseState.X, mouseState.Y);
                 foreach (DataTypes.TileData t in tilemap)
                 {
-                    if (GameConversions.toTilePosition(new Vector2(t.posX, t.posY)) == GameConversions.toTilePosition(position))
+                    if (GameConversions.toTilePosition(new Vector2(t.posX, t.posY)) == clickTilePosition)
                     {
                         tilemap.Remove(t);
                         break;
                     }
                 }
 
-                tilemap.Add(new DataTypes.TileData((int)position.X, (int)position.Y, tileTemplate.texturePath, tileTemplate.collision));
+                tilemap.Add(new DataTypes.TileData((int)clickTilePosition.X, (int)clickTilePosition.Y, tileTemplate.texturePath, tileTemplate.collision));
             }
             if (CheckClick("right"))
             {
-                Vector2 position = new Vector2(mouseState.X, mouseState.Y);
                 foreach (DataTypes.TileData t in tilemap)
                 {
-                    if (GameConversions.toTilePosition(new Vector2(t.posX, t.posY)) == GameConversions.toTilePosition(position))
+                    if (GameConversions.toTilePosition(new Vector2(t.posX, t.posY)) == clickTilePosition)
                     {
                         tilemap.Remove(t);
                         break;
@@ -122,6 +153,10 @@ namespace SlidingBlockPlatformer
             oldMouseState = mouseState;
         }
 
+        /// <summary>
+        /// Checks if the corresponding mouse button is currently pressed down
+        /// </summary>
+        /// <param name="button">The mouse button to check</param>
         private bool CheckClick(String button)
         {
             if (button == "left")
@@ -135,81 +170,132 @@ namespace SlidingBlockPlatformer
             return false;
         }
 
-        private void saveMap()
+        /// <summary>
+        /// Transitions the SavingState through the saving process. 
+        /// Handles selecting the storage device, opening the storage container, and executing the save function
+        /// </summary>
+        private void UpdateSaving()
         {
-            // Set the request flag
-            if ((!Guide.IsVisible) && (GameSaveRequested == false))
+            switch (savingState)
             {
-                GameSaveRequested = true;
-                result = StorageDevice.BeginShowSelector(
-                        PlayerIndex.One, null, null);
-            }
-        }
+                case SavingState.ReadyToSelectStorageDevice:
+#if XBOX
+                    if (!Guide.IsVisible)
+#endif
+                    {
+                        asyncResult = StorageDevice.BeginShowSelector(playerIndex, null, null);
+                        savingState = SavingState.SelectingStorageDevice;
+                    }
+                    break;
 
-        private void checkSave()
-        {
-            if ((GameSaveRequested) && (result.IsCompleted)) 
-            {
-                StorageDevice device = StorageDevice.EndShowSelector(result);
-                if (device != null && device.IsConnected)
-                {
-                    doSaveGame(device);
-                }
-                GameSaveRequested = false;
+                case SavingState.SelectingStorageDevice:
+                    if (asyncResult.IsCompleted)
+                    {
+                        storageDevice = StorageDevice.EndShowSelector(asyncResult);
+                        savingState = SavingState.ReadyToOpenStorageContainer;
+                    }
+                    break;
+
+                case SavingState.ReadyToOpenStorageContainer:
+                    if (storageDevice == null || !storageDevice.IsConnected)
+                    {
+                        savingState = SavingState.ReadyToSelectStorageDevice;
+                    }
+                    else
+                    {
+                        asyncResult = storageDevice.BeginOpenContainer("EditorStorageContainer", null, null);
+                        savingState = SavingState.OpeningStorageContainer;
+                    }
+                    break;
+
+                case SavingState.OpeningStorageContainer:
+                    if (asyncResult.IsCompleted)
+                    {
+                        storageContainer = storageDevice.EndOpenContainer(asyncResult);
+                        savingState = SavingState.ReadyToSave;
+                    }
+                    break;
+
+                case SavingState.ReadyToSave:
+                    if (storageContainer == null)
+                    {
+                        savingState = SavingState.ReadyToOpenStorageContainer;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            string filename = GetUniqueFileName();
+                            Save(filename);
+                        }
+                        catch (IOException e)
+                        {
+                            // Replace with in game dialog notifying user of error
+                            Console.Out.WriteLine(e.Message);
+                        }
+                        finally
+                        {
+                            storageContainer.Dispose();
+                            storageContainer = null;
+                            savingState = SavingState.NotSaving;
+                        }
+                    }
+                    break;
             }
         }
 
         /// <summary>
-        /// This method serializes a data object into
-        /// the StorageContainer for this game.
+        /// Checks for an unused file sequentially according to the template numbering
         /// </summary>
-        /// <param name="device"></param>
-        private void doSaveGame(StorageDevice device)
+        /// <returns>The filename of the next available file</returns>
+        private string GetUniqueFileName()
         {
-            // Create the data to save.
-            DataTypes.TileData[] tiles = new DataTypes.TileData[tilemap.Count()];
+            string filename = filenameTemplate;
+            do
+            {
+                filenameIndex++;
+                filename = filenameTemplate.Replace("xxx", filenameIndex.ToString());
+            } while (storageContainer.FileExists(filename));
 
-            // Open a storage container.
-            IAsyncResult result =
-                device.BeginOpenContainer("StorageDemo", null, null);
+            return filename;
+        }
 
-            // Wait for the WaitHandle to become signaled.
-            result.AsyncWaitHandle.WaitOne();
-
-            StorageContainer container = device.EndOpenContainer(result);
-
-            // Close the wait handle.
-            result.AsyncWaitHandle.Close();
-
-            string filename = "leveltest.xml";
-
-            // Check to see whether the save exists.
-            if (container.FileExists(filename))
-                // Delete it so that we can create one fresh.
-                container.DeleteFile(filename);
-
-            // Create the file.
-            Stream stream = container.CreateFile(filename);
-
-            // Convert the object to XML data and put it in the stream.      
-            XmlSerializer serializer = new XmlSerializer(typeof(DataTypes.TileData));
-            serializer.Serialize(Console.Out, tilemap);
-
-            // Close the file.
-            stream.Close();
-
-            // Dispose the container, to commit changes.
-            container.Dispose();
+        /// <summary>
+        /// Saves an XML serialization of the tilemap to the storage container
+        /// </summary>
+        /// <param name="filename">The file to save to</param>
+        private void Save(string filename)
+        {
+            using (Stream stream = storageContainer.CreateFile(filename))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<DataTypes.TileData>));
+                serializer.Serialize(stream, tilemap);
+            }
         }
         
+        /// <summary>
+        /// Draws the current tilemap, descriptive text, and cursor to the screen
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
+
+            // Draw populated tiles
             foreach (DataTypes.TileData t in tilemap)
             {
-                spriteBatch.Draw(game.Content.Load<Texture2D>(t.texturePath), new Vector2(t.posX, t.posY), Color.White);
+                spriteBatch.Draw(game.Content.Load<Texture2D>(t.texturePath), new Rectangle(t.posX, t.posY, (int)Tile.Size.X, (int)Tile.Size.Y), Color.White);
             }
-            spriteBatch.DrawString(game.Content.Load<SpriteFont>("menufont"), tileTemplate.texturePath, Vector2.Zero, Color.Black);
+
+            // Draw saving text
+            if (savingState == SavingState.ReadyToSave)
+            {
+                spriteBatch.DrawString(game.Content.Load<SpriteFont>("menufont"), "saving to '" + filenameTemplate.Replace("xxx", filenameIndex.ToString()) + "'", new Vector2(0, 0), Color.Black);
+            }
+
+            // Draw cursor
+            spriteBatch.Draw(game.Content.Load<Texture2D>(tileTemplate.texturePath), new Rectangle(mouseState.X, mouseState.Y, (int)Tile.Size.X, (int)Tile.Size.Y), Color.White);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
