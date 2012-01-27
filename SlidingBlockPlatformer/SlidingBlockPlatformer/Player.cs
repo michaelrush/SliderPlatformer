@@ -20,7 +20,7 @@ namespace SlidingBlockPlatformer
         public Vector2 position;
         public Vector2 velocity;
         public float speed;
-        public Texture2D sprite;
+        public Texture2D sprite, spriteLeft, spriteRight;
 
         public Player(IServiceProvider serviceProvider, Vector2 position)
         {
@@ -29,7 +29,9 @@ namespace SlidingBlockPlatformer
             this.position = position;
             velocity = new Vector2();
             speed = .25f;
-            sprite = content.Load<Texture2D>("Textures/dog");
+            spriteLeft = content.Load<Texture2D>("Textures/dog_left");
+            spriteRight = content.Load<Texture2D>("Textures/dog_right");
+            sprite = spriteLeft;
         }
 
         /// <summary>
@@ -45,10 +47,12 @@ namespace SlidingBlockPlatformer
             if (ks.IsKeyDown(Keys.Left))
             {
                 position.X -= dP.X;
+                sprite = spriteLeft;
             }
             if (ks.IsKeyDown(Keys.Right))
             {
                 position.X += dP.X;
+                sprite = spriteRight;
             }
             if (ks.IsKeyDown(Keys.Up))
             {
