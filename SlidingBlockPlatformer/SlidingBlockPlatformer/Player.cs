@@ -29,7 +29,7 @@ namespace SlidingBlockPlatformer
             this.position = position;
             velocity = new Vector2();
             speed = .25f;
-            sprite = content.Load<Texture2D>("Textures/purpleBlock");
+            sprite = content.Load<Texture2D>("Textures/dog");
         }
 
         /// <summary>
