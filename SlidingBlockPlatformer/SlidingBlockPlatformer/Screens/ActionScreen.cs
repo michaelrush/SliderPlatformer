@@ -9,40 +9,39 @@ using System.IO;
 
 namespace SlidingBlockPlatformer
 {
-    class ActionScreen : GameScreen
+    public class ActionScreen : GameScreen
     {
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
-        private ScreenManager screenManager;
         private ContentLoader contentLoader;
-
-        private Level level;
+        private Tilemap tilemap;
+        private string levelIndex;
 
         public ActionScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
-            screenManager = (ScreenManager)game.Services.GetService(typeof(ScreenManager));
-            loadLevel("1");
+            this.tilemap = new Tilemap(game.Services);
+            //loadLevel("Tilemaps/Level-1.xml");
         }
 
-        public void loadLevel(string levelIndex)
+        private void loadLevel(string levelIndex) {
+            this.levelIndex = levelIndex;
+            screenManager.loadingScreen.LoadContent(this);
+        }
+
+        protected override void LoadContent()
         {
-            AsyncCallback callback = new AsyncCallback(loadCallback); 
-            contentLoader = new ContentLoader(game, callback, levelIndex);
-        }
+            // This is getting called too early. rename so its not invoked after init?
+            tilemap.LoadContent(levelIndex);
 
-        public void loadCallback(IAsyncResult result)
-        {
-            Stream s = (Stream)result.AsyncState;
-            Console.Out.WriteLine("done");
+            screenManager.loadingScreen.Hide();
+            this.Show();
         }
-
+        
         public override void Update(GameTime gameTime)
         {
-            /*
             base.Update(gameTime);
-            level.Update(gameTime);
+            /*level.Update(gameTime);
             handleInput();*/
-            Console.Out.WriteLine(contentLoader.loadingState);
         }
 
         /// <summary>

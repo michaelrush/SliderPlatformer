@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace SlidingBlockPlatformer
 {
-    class EditScreen : GameScreen
+    public class EditScreen : GameScreen
     {
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
@@ -28,7 +28,6 @@ namespace SlidingBlockPlatformer
         private PlayerIndex playerIndex = PlayerIndex.One;
         private string filenameTemplate = "Tilemaps/Level-xxx.xml";
         private int filenameIndex = 0;
-        private ScreenManager screenManager;
         private DataTypes.TileData brownTemplate;
         private DataTypes.TileData redTemplate;
         private DataTypes.TileData greenTemplate;

@@ -33,7 +33,7 @@ namespace SlidingBlockPlatformer
         public Level(IServiceProvider serviceProvider, String levelIndex)
         {
             this.levelIndex = levelIndex;
-            tilemap = new Tilemap(serviceProvider, levelIndex);
+            tilemap = new Tilemap(serviceProvider);
             //LoadCompleteDelegate mDeleg = new LoadCompleteDelegate(loadComplete);
             //mDeleg.BeginInvoke(serviceProvider, null, null);
         }

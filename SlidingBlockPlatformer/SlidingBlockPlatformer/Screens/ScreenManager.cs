@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace SlidingBlockPlatformer
 {
-    class ScreenManager : DrawableGameComponent
+    public class ScreenManager : DrawableGameComponent
     {
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
@@ -24,6 +24,7 @@ namespace SlidingBlockPlatformer
         public StartScreen startScreen;
         public ActionScreen actionScreen;
         public EditScreen editScreen;
+        public LoadingScreen loadingScreen;
 
         private SpriteBatch spriteBatch;
 
@@ -39,12 +40,15 @@ namespace SlidingBlockPlatformer
             startScreen.Initialize();
             startScreen.Hide();
 
-            //string path = StorageContainer.TitleLocation;
             actionScreen = new ActionScreen(game, spriteBatch);
             actionScreen.Initialize();
             actionScreen.Hide();
 
             editScreen = new EditScreen(game, spriteBatch);
+            editScreen.Initialize();
+            editScreen.Hide();
+
+            loadingScreen = new LoadingScreen(game, spriteBatch);
             editScreen.Initialize();
             editScreen.Hide();
 

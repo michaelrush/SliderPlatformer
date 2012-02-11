@@ -53,7 +53,7 @@ namespace SlidingBlockPlatformer
             loadingState = LoadingState.ReadyToSelectStorageDevice;
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             UpdateLoading();
         }
@@ -135,12 +135,12 @@ namespace SlidingBlockPlatformer
         /// Loads the contents of the given file from the storage device into tiles
         /// </summary>
         /// <param name="filename"></param>
-        private Stream Load(string filename)
+        private void Load(string filename)
         {            
             // Open the file
             using (Stream stream = storageContainer.OpenFile(filename, FileMode.Open))
             {
-                return stream;
+                //callback(stream);
             }
         }
     }

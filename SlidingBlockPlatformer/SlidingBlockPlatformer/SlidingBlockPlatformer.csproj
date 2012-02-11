@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Screens\ActionScreen.cs" />
+    <Compile Include="Screens\LoadingScreen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\EditScreen.cs" />
     <Compile Include="GameConversions.cs" />

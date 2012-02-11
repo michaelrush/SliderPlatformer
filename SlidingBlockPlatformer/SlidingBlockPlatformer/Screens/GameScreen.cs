@@ -19,17 +19,26 @@ namespace SlidingBlockPlatformer
         List<GameComponent> components = new List<GameComponent>();
         protected Game game;
         protected SpriteBatch spriteBatch;
+        protected ScreenManager screenManager;
 
         public List<GameComponent> Components
         {
             get { return components; }
         }
 
+        public enum ScreenState
+        {
+            Loading,
+            Idle
+        }
+        public ScreenState screenState = ScreenState.Loading;
+
         public GameScreen(Game game, SpriteBatch spriteBatch)
             : base(game)
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
+            screenManager = (ScreenManager)game.Services.GetService(typeof(ScreenManager));
         }
 
         public override void Initialize()
@@ -37,6 +46,7 @@ namespace SlidingBlockPlatformer
             base.Initialize();
         }
 
+        public void Load() { LoadContent(); }
         protected override void LoadContent()
         {
             base.LoadContent();

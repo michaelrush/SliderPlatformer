@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SlidingBlockPlatformer
 {
-    class StartScreen : GameScreen
+    public class StartScreen : GameScreen
     {
         MenuComponent menuComponent;
         Texture2D image;
