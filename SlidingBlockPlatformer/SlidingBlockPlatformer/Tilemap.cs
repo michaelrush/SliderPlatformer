@@ -28,18 +28,21 @@ namespace SlidingBlockPlatformer
         /// Loads the given level from the storage device
         /// </summary>
         /// <param name="serviceProvider">Provides the content reference</param>
-        /// <param name="levelIndex">The level index to load</param>
         public Tilemap(IServiceProvider serviceProvider)
         {
             content = new ContentManager(serviceProvider, "Content");
         }
 
-        public void LoadContent(string filename)
+        /// <summary>
+        /// Deserializes the .xnb file at the given path into a TileData array and populates the tiles list
+        /// </summary>
+        /// <param name="filename"></param>
+        public void LoadContent(string path)
         {
-            List<DataTypes.TileData> tdata = content.Load<List<DataTypes.TileData>>(filename);
+            DataTypes.TileData[] tdata = content.Load<DataTypes.TileData[]>(path);
 
             tiles.Clear();
-            for (int i = 0; i < tdata.Count; i++)
+            for (int i = 0; i < tdata.Length; i++)
             {
                 tiles.Add(new Tile(new Vector2(tdata[i].posX, tdata[i].posY), content.Load<Texture2D>(tdata[i].texturePath), tdata[i].collision));
             }
@@ -48,6 +51,5 @@ namespace SlidingBlockPlatformer
         public void Update(GameTime gameTime)
         {
         }
-
     }
 }

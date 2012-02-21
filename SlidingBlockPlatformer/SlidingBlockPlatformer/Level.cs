@@ -19,8 +19,6 @@ namespace SlidingBlockPlatformer
         private Player player;
         private Tilemap tilemap;
 
-        private String levelIndex;
-
         /// <summary>
         /// Constructs a new level.
         /// </summary>
@@ -30,12 +28,10 @@ namespace SlidingBlockPlatformer
         /// <param name="levelIndex">
         /// The name of the level file to be loaded
         /// </param>
-        public Level(IServiceProvider serviceProvider, String levelIndex)
+        public Level(IServiceProvider serviceProvider, Tilemap tilemap)
         {
-            this.levelIndex = levelIndex;
-            tilemap = new Tilemap(serviceProvider);
-            //LoadCompleteDelegate mDeleg = new LoadCompleteDelegate(loadComplete);
-            //mDeleg.BeginInvoke(serviceProvider, null, null);
+            this.tilemap = tilemap;
+            player = new Player(serviceProvider, Vector2.Zero);
         }
 
         /// <summary>

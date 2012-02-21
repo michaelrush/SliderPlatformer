@@ -13,20 +13,37 @@ namespace SlidingBlockPlatformer
     public class LoadingScreen : GameScreen
     {
         private Thread loadingThread;
-        private Level level;
+        SpriteFont font;
+        private string loadingString;
+        private Vector2 loadingStringSize;
+        private Vector2 loadingStringPosition;
 
-        public LoadingScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
-        {
-        }
 
-        public void LoadContent(GameScreen screenToLoad)
+        public LoadingScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch) { }
+
+        /// <summary>
+        /// Runs the given delegates with the given arguments in a new thread
+        /// </summary>
+        public void LoadScreenContent(Delegate loadMethod, Delegate completeMethod, object[] loadArgs)
         {
-            loadingThread = new Thread(screenToLoad.Load);
+            // Invokes load then close delegates in a new thread.
+            // TODO: Remove thread sleep once loading testing is complete
+            loadingThread = new Thread(() => { Thread.Sleep(1000); loadMethod.DynamicInvoke(loadArgs); completeMethod.DynamicInvoke(); });
             loadingThread.Priority = ThreadPriority.Highest;
             loadingThread.Start();
+        }
 
-            screenToLoad.Hide();
-            this.Show();
+        /// <summary>
+        /// Calculates the loading string size and position
+        /// </summary>
+        protected override void LoadContent()
+        {
+            loadingString = "Loading...";
+            font = game.Content.Load<SpriteFont>("loadfont");
+            loadingStringSize = font.MeasureString(loadingString);
+            loadingStringPosition = new Vector2(
+                game.GraphicsDevice.Viewport.Width / 2 - loadingStringSize.X / 2,
+                game.GraphicsDevice.Viewport.Height / 2 - loadingStringSize.Y / 2);
         }
 
         public override void Update(GameTime gameTime)
@@ -36,8 +53,15 @@ namespace SlidingBlockPlatformer
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.DrawString(game.Content.Load<SpriteFont>("menufont"), "Loading", new Vector2(0, 0), Color.Black);
+            spriteBatch.Begin();
+            GraphicsDevice.Clear(Color.Black);
+            spriteBatch.DrawString(
+                font,
+                loadingString,
+                loadingStringPosition, 
+                Color.White);
             base.Draw(gameTime);
+            spriteBatch.End();
         }
     }
 }

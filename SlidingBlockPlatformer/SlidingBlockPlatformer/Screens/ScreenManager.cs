@@ -47,10 +47,10 @@ namespace SlidingBlockPlatformer
             editScreen = new EditScreen(game, spriteBatch);
             editScreen.Initialize();
             editScreen.Hide();
-
+            
             loadingScreen = new LoadingScreen(game, spriteBatch);
-            editScreen.Initialize();
-            editScreen.Hide();
+            loadingScreen.Initialize();
+            loadingScreen.Hide();
 
             activeScreen = startScreen;
             activeScreen.Show();
@@ -58,10 +58,33 @@ namespace SlidingBlockPlatformer
             base.Initialize();
         }
 
+        /// <summary>
+        /// Accepts a load request from a screen. Transitions from the screen to the loading screen while loading. 
+        /// Transitions back to the original screen after loading is complete
+        /// </summary>
+        /// <param name="screenToLoad">The screen requesting the load operation</param>
+        /// <param name="loadMethod">The method containing the loading logic for the screen</param>
+        /// <param name="loadArgs">All arguments required for the loadMethod</param>
+        public void LoadScreenContent(GameScreen screenToLoad, Delegate loadMethod, params object[] loadArgs)
+        {
+            // Transitions from the loading screen to the original screen
+            Action FinalizeLoad = () =>
+            {
+                loadingScreen.Hide();
+                activeScreen = screenToLoad;
+                screenToLoad.Show();
+            };
+
+            screenToLoad.Hide();
+            activeScreen = loadingScreen;
+            loadingScreen.LoadScreenContent(loadMethod, FinalizeLoad, loadArgs);
+            loadingScreen.Show();
+        }
+
         public override void Update(GameTime gameTime)
         {
             handleInput();
-            activeScreen.Update(gameTime);
+            if (activeScreen.Enabled) activeScreen.Update(gameTime);
         }
 
         private void handleInput()
@@ -79,7 +102,7 @@ namespace SlidingBlockPlatformer
                     {
                         activeScreen.Hide();
                         activeScreen = actionScreen;
-                        activeScreen.Show();
+                        actionScreen.RequestLoadLevel("Tilemaps/Level-1.0");
                     }
                     if (startScreen.SelectedIndex == 1)
                     {
@@ -109,7 +132,7 @@ namespace SlidingBlockPlatformer
 
         public override void Draw(GameTime gameTime)
         {
-            activeScreen.Draw(gameTime);
+            if (activeScreen.Visible) activeScreen.Draw(gameTime);
         }
     }
 }

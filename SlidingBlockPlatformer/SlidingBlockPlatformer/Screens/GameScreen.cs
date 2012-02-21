@@ -38,6 +38,7 @@ namespace SlidingBlockPlatformer
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
+            var gs = game.Services;
             screenManager = (ScreenManager)game.Services.GetService(typeof(ScreenManager));
         }
 

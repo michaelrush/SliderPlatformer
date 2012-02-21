@@ -1,509 +1,507 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<XnaContent>
-  <Asset Type="DataTypes.TileData[]">
-    <Item>
+<?xml version="1.0"?>
+<ArrayOfTileData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>20</posX>
     <posY>380</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>40</posX>
     <posY>380</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>60</posX>
     <posY>380</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>80</posX>
     <posY>400</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>100</posX>
     <posY>400</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>120</posX>
     <posY>400</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>160</posX>
     <posY>400</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>180</posX>
     <posY>400</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>200</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>240</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>260</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>300</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>320</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>360</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>380</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>420</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>460</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>500</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>520</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>540</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>560</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>600</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>640</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>680</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>720</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>740</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>760</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>780</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/brownBlock</texturePath>
     <collision>Impassable</collision>
     <posX>800</posX>
     <posY>420</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>680</posX>
     <posY>320</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>680</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>660</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>640</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>620</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>580</posX>
     <posY>360</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>560</posX>
     <posY>360</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>540</posX>
     <posY>360</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>500</posX>
     <posY>360</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>480</posX>
     <posY>360</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>460</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>440</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>420</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>400</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>380</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>360</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>340</posX>
     <posY>340</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>320</posX>
     <posY>320</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>320</posX>
     <posY>300</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>320</posX>
     <posY>280</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>360</posX>
     <posY>260</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>380</posX>
     <posY>260</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>400</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>440</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>460</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>500</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>540</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>580</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>600</posX>
     <posY>240</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>600</posX>
     <posY>260</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/blueBlock</texturePath>
     <collision>Impassable</collision>
     <posX>620</posX>
     <posY>260</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>720</posX>
     <posY>220</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>720</posX>
     <posY>200</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>720</posX>
     <posY>180</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>700</posX>
     <posY>160</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>680</posX>
     <posY>160</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>680</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>660</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>640</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>600</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>560</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>520</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>500</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>460</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>420</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>400</posX>
     <posY>140</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>380</posX>
     <posY>160</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>360</posX>
     <posY>160</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>320</posX>
     <posY>180</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>280</posX>
     <posY>200</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>260</posX>
     <posY>200</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>220</posX>
     <posY>200</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>200</posX>
     <posY>200</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>200</posX>
     <posY>220</posY>
-  </Item>
-  <Item>
+  </TileData>
+  <TileData>
     <texturePath>Textures/greenBlock</texturePath>
     <collision>Impassable</collision>
     <posX>180</posX>
     <posY>220</posY>
-  </Item>
-  </Asset>
-</XnaContent>
+  </TileData>
+</ArrayOfTileData>

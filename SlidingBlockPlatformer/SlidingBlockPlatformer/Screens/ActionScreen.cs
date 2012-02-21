@@ -15,33 +15,31 @@ namespace SlidingBlockPlatformer
         private KeyboardState oldKeyboardState;
         private ContentLoader contentLoader;
         private Tilemap tilemap;
+        private Level level;
         private string levelIndex;
 
         public ActionScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
-            this.tilemap = new Tilemap(game.Services);
-            //loadLevel("Tilemaps/Level-1.xml");
+            tilemap = new Tilemap(game.Services);
         }
 
-        private void loadLevel(string levelIndex) {
-            this.levelIndex = levelIndex;
-            screenManager.loadingScreen.LoadContent(this);
-        }
-
-        protected override void LoadContent()
+        public void RequestLoadLevel(string levelIndex)
         {
-            // This is getting called too early. rename so its not invoked after init?
-            tilemap.LoadContent(levelIndex);
-
-            screenManager.loadingScreen.Hide();
-            this.Show();
+            this.levelIndex = levelIndex;
+            screenManager.LoadScreenContent(this, new Action<string>(LoadLevel), levelIndex);
         }
-        
+
+        private void LoadLevel(string levelIndex)
+        {
+            tilemap.LoadContent(levelIndex);
+            level = new Level(game.Services, tilemap);
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            /*level.Update(gameTime);
-            handleInput();*/
+            level.Update(gameTime);
+            handleInput();
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace SlidingBlockPlatformer
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            //level.Draw(spriteBatch, GraphicsDevice);
+            level.Draw(spriteBatch, GraphicsDevice);
         }
     }
 }

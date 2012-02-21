@@ -41,8 +41,9 @@ namespace SlidingBlockPlatformer
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Components.Add(new ScreenManager(this, spriteBatch));
+            ScreenManager screenManager = new ScreenManager(this, spriteBatch);
+            Components.Add(screenManager);
+            Services.AddService(typeof(ScreenManager), screenManager);
 
             base.Initialize();
         }
