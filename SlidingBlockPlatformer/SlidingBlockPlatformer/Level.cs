@@ -53,7 +53,7 @@ namespace SlidingBlockPlatformer
             {
                 foreach (Tile t in tilemap.tiles)
                 {
-                    spriteBatch.Draw(t.texture, t.position, Color.White);
+                    spriteBatch.Draw(t.texture, t.boundingRectangle, Color.White);
                 }
             }
             player.Draw(spriteBatch, graphics);

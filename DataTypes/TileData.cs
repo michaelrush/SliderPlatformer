@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace DataTypes
 {
 
-    public enum TileCollision
+    public enum CollisionType
     {
         /// <summary>
         /// An passable tile is one which does allow the player to move through it
@@ -30,11 +30,11 @@ namespace DataTypes
     public class TileData
     {
         public String texturePath;
-        public TileCollision collision;
+        public CollisionType collision;
         public int posX;
         public int posY;
 
-        public TileData(int posX, int posY, String texturePath, TileCollision collision)
+        public TileData(int posX, int posY, String texturePath, CollisionType collision)
         {
             this.texturePath = texturePath;
             this.collision = collision;

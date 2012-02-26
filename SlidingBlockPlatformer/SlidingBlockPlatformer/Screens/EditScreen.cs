@@ -53,10 +53,10 @@ namespace SlidingBlockPlatformer
         {
             screenManager = (ScreenManager)game.Services.GetService(typeof(ScreenManager));
             this.spriteBatch = spriteBatch;
-            brownTemplate = new DataTypes.TileData(0, 0, "Textures/brownBlock", DataTypes.TileCollision.Impassable);
-            redTemplate = new DataTypes.TileData(0, 0, "Textures/redBlock", DataTypes.TileCollision.Impassable);
-            greenTemplate = new DataTypes.TileData(0, 0, "Textures/greenBlock", DataTypes.TileCollision.Impassable);
-            blueTemplate = new DataTypes.TileData(0, 0, "Textures/blueBlock", DataTypes.TileCollision.Impassable);
+            brownTemplate = new DataTypes.TileData(0, 0, "Textures/brownBlock", DataTypes.CollisionType.Impassable);
+            redTemplate = new DataTypes.TileData(0, 0, "Textures/redBlock", DataTypes.CollisionType.Impassable);
+            greenTemplate = new DataTypes.TileData(0, 0, "Textures/greenBlock", DataTypes.CollisionType.Impassable);
+            blueTemplate = new DataTypes.TileData(0, 0, "Textures/blueBlock", DataTypes.CollisionType.Impassable);
             tileTemplate = brownTemplate;
             tilemap = new List<DataTypes.TileData>();
         }
