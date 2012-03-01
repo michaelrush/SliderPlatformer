@@ -20,7 +20,7 @@ namespace SlidingBlockPlatformer
             ContentManager content = new ContentManager(serviceProvider, "Content");
             this.position = position;
             velocity = new Vector2();
-            speed = .125f;
+            speed = .25f;
             spriteLeft = content.Load<Texture2D>("Textures/dog_left");
             spriteRight = content.Load<Texture2D>("Textures/dog_right");
             sprite = spriteLeft;

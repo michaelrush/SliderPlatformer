@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="ContentLoader.cs" />
     <Compile Include="CollisionManager.cs" />
-    <Compile Include="Polygon.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="MovableEntity.cs" />
     <Compile Include="Screens\ActionScreen.cs" />

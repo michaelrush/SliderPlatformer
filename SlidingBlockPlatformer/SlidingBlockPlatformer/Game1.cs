@@ -31,7 +31,8 @@ namespace SlidingBlockPlatformer
             graphics.PreferredBackBufferWidth = BackBufferWidth;
             graphics.PreferredBackBufferHeight = BackBufferHeight;
 
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 10.0f);
+            // uncomment to limit update to 10 loops/sec
+            //this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 10.0f);
         }
 
         /// <summary>
