@@ -11,6 +11,9 @@ namespace SlidingBlockPlatformer
 {
     public class Tile : MovableEntity
     {
+        //debug
+        public Boolean colliding;
+
         /// <summary>
         /// Constructs a new tile
         /// </summary>
@@ -19,7 +22,9 @@ namespace SlidingBlockPlatformer
         /// <param name="collision">Collision type used for collision resolution</param>
         public Tile(Vector2 position, Texture2D texture, DataTypes.CollisionType collision)
         {
+            colliding = false;
             this.position = position;
+            prevPosition = position;
             this.texture = texture;
             this.collision = collision;
         }

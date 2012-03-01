@@ -30,7 +30,7 @@ namespace SlidingBlockPlatformer
         {
             get { return new BoundingBox(new Vector3(position.X, position.Y, 0), new Vector3(position.X + width, position.Y + height, 0)); }
         }
-
+        
         // The rectangle is calculated from the tile's current position
         public Rectangle boundingRectangle
         {

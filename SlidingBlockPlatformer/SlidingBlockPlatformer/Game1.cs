@@ -30,6 +30,8 @@ namespace SlidingBlockPlatformer
             this.Components.Add(new GamerServicesComponent(this));
             graphics.PreferredBackBufferWidth = BackBufferWidth;
             graphics.PreferredBackBufferHeight = BackBufferHeight;
+
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 10.0f);
         }
 
         /// <summary>
