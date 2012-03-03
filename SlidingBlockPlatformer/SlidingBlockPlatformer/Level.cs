@@ -18,6 +18,16 @@ namespace SlidingBlockPlatformer
     {
         private Player player;
         private Tilemap tilemap;
+        private List<Entity> entities
+        {
+            get
+            {
+                List<Entity> entities = new List<Entity>();
+                entities.Add(player);
+                entities.AddRange(tilemap.tiles);
+                return entities;
+            }
+        }
 
         /// <summary>
         /// Constructs a new level.
@@ -41,7 +51,7 @@ namespace SlidingBlockPlatformer
         {
             player.Update(gameTime);
             tilemap.Update(gameTime);
-            CollisionManager.findContacts(player, tilemap);
+            CollisionManager.updateCollisions(entities);
         }
 
         /// <summary>

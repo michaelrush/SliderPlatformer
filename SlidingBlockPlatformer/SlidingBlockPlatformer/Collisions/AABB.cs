@@ -16,55 +16,33 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SlidingBlockPlatformer
 {
-    public static class CollisionManager
+    public static class AABB
     {
-        /// <summary>
-        /// Use AABB sweep test to find all contact pairs
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="tilemap"></param>
-        public static void findContacts(Player player, Tilemap tilemap) {
-            List<Tile> tiles = tilemap.tiles;
-            foreach (Tile t in tiles)
-            {
-                float collisionTime;
-                if (AABBSweep(player, t, out collisionTime))
-                {
-                    t.colliding = true;
-                }
-                else
-                {
-                    t.colliding = false;
-                }
-            }
-        }
-
         /// <summary>
         /// AABB Sweep in two dimensions
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        public static Boolean AABBSweep(MovableEntity a, MovableEntity b, out float collisionTime)
+        public static CollisionData AABBSweep(MovableEntity a, MovableEntity b)
         {
             //the problem is solved in A's frame of reference
             //relative velocity (in normalized time)
-            Vector2 va = new Vector2(a.position.X - a.prevPosition.X, a.position.Y - a.prevPosition.Y);
-            Vector2 vb = new Vector2(b.position.X - b.prevPosition.X, b.position.Y - b.prevPosition.Y);
-            Vector2 v = vb - va;
+            Vector2 v = b.velocity - a.velocity;
             float t0, t1;
-            collisionTime = 0;
+            a.colliding = false;
+            b.colliding = false;
+
+            //first times of overlap along each axis
+            Vector2 u0 = new Vector2(0.0f, 0.0f);
+
+            //last times of overlap along each axis
+            Vector2 u1 = new Vector2(0.0f, 0.0f);
 
             //check if they were overlapping on the previous frame
             if (overlaps(a, b))
             {
-                return true;
+                a.colliding = true;
+                b.colliding = true;
+                return new CollisionData(0.0f, u0, a, b);
             }
-
-            //first times of overlap along each axis
-            Vector2 u0 = new Vector2(0.0f, 0.0f);
-            
-            //last times of overlap along each axis
-            Vector2 u1 = new Vector2(0.0f, 0.0f);
 
             //find the possible first and last times of overlap along each axis
             for( long i=0 ; i<2 ; i++ )
@@ -104,23 +82,24 @@ namespace SlidingBlockPlatformer
             // t0 must be less than 1  for the collision to occur during this timestep
             if (t0 <= t1 && t0 != 0 && t0 <= 1)
             {
-                collisionTime = t0;
-                return true;
+                a.colliding = true;
+                b.colliding = true;
+                return new CollisionData(t0, u0, a, b);
             }
-            return false;
+            return null;
         }
 
         /// <summary>
-        /// returns true if a is overlapping b
+        /// returns true if a was overlapping b in the previous frame
         /// </summary>
         private static Boolean overlaps(MovableEntity a, MovableEntity b)
         {
             //vector from A to B
-            Vector2 dist = b.position - a.position;
+            Vector2 dist = b.prevPosition - a.prevPosition;
 
             // If either axis is disjoint, there is no overlap
-            return Math.Abs(dist.X) < (a.boundingRectangle.Width / 2 + b.boundingRectangle.Width / 2) &&
-                Math.Abs(dist.Y) < (a.boundingRectangle.Height / 2 + b.boundingRectangle.Height / 2);
+            return Math.Abs(dist.X) < (a.prevBoundingRectangle.Width / 2 + b.prevBoundingRectangle.Width / 2) &&
+                Math.Abs(dist.Y) < (a.prevBoundingRectangle.Height / 2 + b.prevBoundingRectangle.Height / 2);
         }
 
         /// <summary>
@@ -144,8 +123,8 @@ namespace SlidingBlockPlatformer
         {
             switch (i)
             {
-                case 0: return e.prevPosition.X + e.boundingRectangle.Width - 1;
-                case 1: return e.prevPosition.Y + e.boundingRectangle.Height - 1;
+                case 0: return e.prevPosition.X + e.boundingRectangle.Width;
+                case 1: return e.prevPosition.Y + e.boundingRectangle.Height;
                 default: return 0;
             }
         }
@@ -174,9 +153,6 @@ namespace SlidingBlockPlatformer
                 case 1: v.Y = r; break;
                 default: return;
             }
-        }
-
-        public static void resolveCollisions() {
         }
     }
 }

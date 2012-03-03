@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SlidingBlockPlatformer
 {
-    public class Player : MovableEntity
+    public class Player : Actor
     {
         public Texture2D sprite, spriteLeft, spriteRight;
         public Player(IServiceProvider serviceProvider, Vector2 position)
@@ -20,7 +20,8 @@ namespace SlidingBlockPlatformer
             ContentManager content = new ContentManager(serviceProvider, "Content");
             this.position = position;
             velocity = new Vector2();
-            speed = .25f;
+            speed = .27f;
+            impulse = Vector2.Zero;
             spriteLeft = content.Load<Texture2D>("Textures/dog_left");
             spriteRight = content.Load<Texture2D>("Textures/dog_right");
             sprite = spriteLeft;
@@ -55,7 +56,12 @@ namespace SlidingBlockPlatformer
                 position.Y += dP.Y;
             }
 
-            velocity = new Vector2((position.X - prevPosition.X) / gameTime.ElapsedGameTime.Milliseconds, (position.Y - prevPosition.Y) / gameTime.ElapsedGameTime.Milliseconds);
+            velocity = new Vector2((position.X - prevPosition.X), (position.Y - prevPosition.Y)); // original vel
+            if (impulse != Vector2.Zero)
+                velocity -= ((velocity * impulse) / impulse.LengthSquared()) * impulse; // Projection of velocity onto impulse
+
+            position = prevPosition + velocity;
+            impulse = Vector2.Zero;
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)

@@ -13,7 +13,6 @@ namespace SlidingBlockPlatformer
     {
         private KeyboardState keyboardState;
         private KeyboardState oldKeyboardState;
-        private ContentLoader contentLoader;
         private Tilemap tilemap;
         private Level level;
         private string levelIndex;

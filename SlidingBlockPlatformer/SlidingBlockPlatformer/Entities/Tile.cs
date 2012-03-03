@@ -11,9 +11,6 @@ namespace SlidingBlockPlatformer
 {
     public class Tile : MovableEntity
     {
-        //debug
-        public Boolean colliding;
-
         /// <summary>
         /// Constructs a new tile
         /// </summary>
@@ -26,7 +23,7 @@ namespace SlidingBlockPlatformer
             this.position = position;
             prevPosition = position;
             this.texture = texture;
-            this.collision = collision;
+            this.collisionType = collision;
         }
     }
 }

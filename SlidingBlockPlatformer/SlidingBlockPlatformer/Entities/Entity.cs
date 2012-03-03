@@ -6,13 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.Media;
 
 namespace SlidingBlockPlatformer
 {
@@ -23,7 +17,8 @@ namespace SlidingBlockPlatformer
         public const int width = 20;
         public const int height = 20;
         public static readonly Vector2 Size = new Vector2(width, height);
-        public DataTypes.CollisionType collision;
+        public DataTypes.CollisionType collisionType;
+        public bool colliding;
 
         // The bounding box is calculated from the tile's current position
         public BoundingBox boundingBox

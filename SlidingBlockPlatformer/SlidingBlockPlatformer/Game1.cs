@@ -19,17 +19,14 @@ namespace SlidingBlockPlatformer
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private const int BackBufferWidth = 960;
-        private const int BackBufferHeight = 600;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             this.Components.Add(new GamerServicesComponent(this));
-            graphics.PreferredBackBufferWidth = BackBufferWidth;
-            graphics.PreferredBackBufferHeight = BackBufferHeight;
+            graphics.PreferredBackBufferWidth = GameConstants.BackBufferWidth;
+            graphics.PreferredBackBufferHeight = GameConstants.BackBufferHeight;
 
             // uncomment to limit update to 10 loops/sec
             //this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 10.0f);
@@ -44,9 +41,12 @@ namespace SlidingBlockPlatformer
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
             ScreenManager screenManager = new ScreenManager(this, spriteBatch);
             Components.Add(screenManager);
             Services.AddService(typeof(ScreenManager), screenManager);
+
+            Components.Add(new FrameRateCounter(this));
 
             base.Initialize();
         }

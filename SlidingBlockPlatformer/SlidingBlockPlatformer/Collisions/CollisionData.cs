@@ -16,16 +16,24 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SlidingBlockPlatformer
 {
-    public abstract class MovableEntity : Entity
+    public class CollisionData : IComparable
     {
-        public Vector2 prevPosition;
-        public Vector2 velocity;
-        public float speed;
+        public float time;
+        public Vector2 times;
+        public MovableEntity a;
+        public MovableEntity b;
 
-        // The rectangle is calculated from the tile's previous position
-        public Rectangle prevBoundingRectangle
+        public CollisionData(float time, Vector2 times, MovableEntity actor, MovableEntity mover)
         {
-            get { return new Rectangle((int)prevPosition.X, (int)prevPosition.Y, width, height); }
+            this.time = time;
+            this.times = times;
+            this.a = mover;
+            this.b = actor;
+        }
+
+        public int CompareTo(object o)
+        {
+            return (int) this.time;
         }
     }
 }
