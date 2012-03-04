@@ -27,8 +27,6 @@ namespace SlidingBlockPlatformer
             //relative velocity (in normalized time)
             Vector2 v = b.velocity - a.velocity;
             float t0, t1;
-            a.colliding = false;
-            b.colliding = false;
 
             //first times of overlap along each axis
             Vector2 u0 = new Vector2(0.0f, 0.0f);
@@ -39,9 +37,9 @@ namespace SlidingBlockPlatformer
             //check if they were overlapping on the previous frame
             if (overlaps(a, b))
             {
-                a.colliding = true;
-                b.colliding = true;
-                return new CollisionData(0.0f, u0, a, b);
+                //a.colliding = true;
+                //b.colliding = true;
+                //return new CollisionData(0.0f, u0, a, b);
             }
 
             //find the possible first and last times of overlap along each axis
@@ -80,12 +78,13 @@ namespace SlidingBlockPlatformer
             // they could have only collided if the first time of overlap occurred before the last time of overlap
             // t0 must not be zero because that implies an initial overlap which we already checked
             // t0 must be less than 1  for the collision to occur during this timestep
-            if (t0 <= t1 && t0 != 0 && t0 <= 1)
+            if (t0 <= t1 && t0 != 0 && t0 < 1)
             {
                 a.colliding = true;
                 b.colliding = true;
                 return new CollisionData(t0, u0, a, b);
             }
+
             return null;
         }
 
@@ -123,8 +122,8 @@ namespace SlidingBlockPlatformer
         {
             switch (i)
             {
-                case 0: return e.prevPosition.X + e.boundingRectangle.Width;
-                case 1: return e.prevPosition.Y + e.boundingRectangle.Height;
+                case 0: return e.prevPosition.X + e.boundingRectangle.Width - 1;
+                case 1: return e.prevPosition.Y + e.boundingRectangle.Height - 1;
                 default: return 0;
             }
         }

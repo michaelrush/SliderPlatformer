@@ -60,23 +60,7 @@ namespace SlidingBlockPlatformer
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
             spriteBatch.Begin();
-            Texture2D blank = new Texture2D(graphics, 1, 1, false, SurfaceFormat.Color);
-            blank.SetData(new[] { Color.Red });
-
-            if (tilemap.tiles != null)
-            {
-                foreach (Tile t in tilemap.tiles)
-                {
-                    if (t.colliding)
-                    {
-                        spriteBatch.Draw(blank, t.boundingRectangle, Color.Red);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(t.texture, t.boundingRectangle, Color.White);
-                    }
-                }
-            }
+            tilemap.Draw(spriteBatch, graphics);
             player.Draw(spriteBatch, graphics);
             spriteBatch.End();
         }

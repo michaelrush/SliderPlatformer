@@ -6,13 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.Media;
 
 namespace SlidingBlockPlatformer
 {
@@ -48,8 +43,34 @@ namespace SlidingBlockPlatformer
             }
         }
 
+        private float count = 0.0f;
         public void Update(GameTime gameTime)
         {
+            count++;
+            foreach (Tile t in tiles)
+            {
+                t.prevPosition = t.position;
+                //t.position += new Vector2((float) Math.Sin(count / 50.0f) * 5, 0);
+                t.velocity = t.position - t.prevPosition;
+                t.colliding = false;
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+        {
+            Texture2D blank = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            blank.SetData(new[] { Color.Red });
+
+            if (tiles != null)
+            {
+                foreach (Tile t in tiles)
+                {
+                    if (t.colliding)
+                        spriteBatch.Draw(blank, t.boundingRectangle, Color.Red);
+                    else
+                        spriteBatch.Draw(t.texture, t.boundingRectangle, Color.White);
+                }
+            }
         }
     }
 }

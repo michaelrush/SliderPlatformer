@@ -20,11 +20,13 @@ namespace SlidingBlockPlatformer
             ContentManager content = new ContentManager(serviceProvider, "Content");
             this.position = position;
             velocity = new Vector2();
-            speed = .27f;
-            impulse = Vector2.Zero;
+            speed = .25f;
+            impulses = new List<Vector2>();
+            forces = new List<Vector2>();
             spriteLeft = content.Load<Texture2D>("Textures/dog_left");
             spriteRight = content.Load<Texture2D>("Textures/dog_right");
             sprite = spriteLeft;
+            collisionType = DataTypes.CollisionType.Actor;
         }
 
         /// <summary>
@@ -34,34 +36,30 @@ namespace SlidingBlockPlatformer
         public void Update(GameTime gameTime)
         {
             prevPosition = position;
-            Vector2 dP = new Vector2(gameTime.ElapsedGameTime.Milliseconds*speed,gameTime.ElapsedGameTime.Milliseconds*speed);
+            velocity = Vector2.Zero;
+            float timeMod = gameTime.ElapsedGameTime.Milliseconds;
             KeyboardState ks = Keyboard.GetState();
 
             if (ks.IsKeyDown(Keys.Left))
             {
-                position.X -= dP.X;
+                velocity.X -= speed * timeMod;
                 sprite = spriteLeft;
             }
             if (ks.IsKeyDown(Keys.Right))
             {
-                position.X += dP.X;
+                velocity.X += speed * timeMod;
                 sprite = spriteRight;
             }
             if (ks.IsKeyDown(Keys.Up))
             {
-                position.Y -= dP.Y;
+                velocity.Y -= speed * timeMod;
             }
             if (ks.IsKeyDown(Keys.Down))
             {
-                position.Y += dP.Y;
+                velocity.Y += speed * timeMod;
             }
 
-            velocity = new Vector2((position.X - prevPosition.X), (position.Y - prevPosition.Y)); // original vel
-            if (impulse != Vector2.Zero)
-                velocity -= ((velocity * impulse) / impulse.LengthSquared()) * impulse; // Projection of velocity onto impulse
-
-            position = prevPosition + velocity;
-            impulse = Vector2.Zero;
+            position += velocity;
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)

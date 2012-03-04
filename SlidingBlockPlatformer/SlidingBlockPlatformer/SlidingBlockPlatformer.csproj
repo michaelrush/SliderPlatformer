@@ -113,14 +113,15 @@
     <Compile Include="Collisions\CollisionManager.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="FrameRateCounter.cs" />
-    <Compile Include="GameConversions.cs" />
+    <Compile Include="Util\VectorUtil.cs" />
+    <Compile Include="Util\GameConversions.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\MovableEntity.cs" />
     <Compile Include="Screens\ActionScreen.cs" />
     <Compile Include="Screens\LoadingScreen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\EditScreen.cs" />
-    <Compile Include="GameConstants.cs" />
+    <Compile Include="Util\GameConstants.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Screens\MenuComponent.cs" />

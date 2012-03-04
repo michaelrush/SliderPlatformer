@@ -23,17 +23,22 @@ namespace SlidingBlockPlatformer
         public MovableEntity a;
         public MovableEntity b;
 
-        public CollisionData(float time, Vector2 times, MovableEntity actor, MovableEntity mover)
+        public CollisionData(float time, Vector2 times, MovableEntity a, MovableEntity b)
         {
             this.time = time;
             this.times = times;
-            this.a = mover;
-            this.b = actor;
+            this.a = a;
+            this.b = b;
         }
 
         public int CompareTo(object o)
         {
             return (int) this.time;
+        }
+
+        public bool EqualEntities(CollisionData o)
+        {
+            return a == o.a && b == o.b;
         }
     }
 }

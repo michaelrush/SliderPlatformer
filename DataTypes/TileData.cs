@@ -23,7 +23,13 @@ namespace DataTypes
         /// An impassable tile is one which does not allow the player to move through
         /// it at all. It is completely solid.
         /// </summary>
-        Impassable = 1
+        Impassable = 1,
+
+        
+        /// <summary>
+        /// An actor who can be displaced by forces caused by other entities
+        /// </summary>
+        Actor = 2
     }
 
     [Serializable]
