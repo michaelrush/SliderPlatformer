@@ -19,6 +19,7 @@ namespace SlidingBlockPlatformer
     public class CollisionData : IComparable
     {
         public float time;
+        // The set of collision times along each axis
         public Vector2 times;
         public MovableEntity a;
         public MovableEntity b;
@@ -31,14 +32,14 @@ namespace SlidingBlockPlatformer
             this.b = b;
         }
 
+        /// <summary>
+        /// Positive if this is earlier than other
+        /// Zero if this is equal to other
+        /// Negative if this is later than other
+        /// </summary>
         public int CompareTo(object o)
         {
-            return (int) this.time;
-        }
-
-        public bool EqualEntities(CollisionData o)
-        {
-            return a == o.a && b == o.b;
+            return (int) ((this.time - (o as CollisionData).time) * 1.0 / GameConstants.epsilon);
         }
     }
 }

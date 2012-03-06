@@ -39,7 +39,9 @@ namespace SlidingBlockPlatformer
             tiles.Clear();
             for (int i = 0; i < tdata.Length; i++)
             {
-                tiles.Add(new Tile(new Vector2(tdata[i].posX, tdata[i].posY), content.Load<Texture2D>(tdata[i].texturePath), tdata[i].collision));
+                Texture2D texture = content.Load<Texture2D>(tdata[i].texturePath);
+                texture.Name = tdata[i].texturePath;
+                tiles.Add(new Tile(new Vector2(tdata[i].posX, tdata[i].posY), texture, tdata[i].collision));
             }
         }
 
@@ -50,7 +52,8 @@ namespace SlidingBlockPlatformer
             foreach (Tile t in tiles)
             {
                 t.prevPosition = t.position;
-                //t.position += new Vector2((float) Math.Sin(count / 50.0f) * 5, 0);
+                if (t.texture.Name.Equals("Textures/greenBlock"))
+                    t.position += new Vector2((float) Math.Sin(count / 50.0f) * 5, 0);
                 t.velocity = t.position - t.prevPosition;
                 t.colliding = false;
             }

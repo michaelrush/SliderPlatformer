@@ -11,70 +11,79 @@ namespace SlidingBlockPlatformer
 {
     public static class CollisionManager
     {
-        public static void updateCollisions(List<Entity> entities)
+        /// <summary>
+        /// Finds the set of all collisions for all entities and resolves them in order of collision time
+        /// TODO: Cannot restrict to only MovableEntities
+        /// </summary>
+        /// <param name="entities">All active collidable entities in the game</param>
+        public static void resolveCollisions(List<Entity> entities)
         {
-            foreach (MovableEntity e in entities)
-                applyImpulses(e);
+            Dictionary<MovableEntity, List<CollisionData>> contactMap = new Dictionary<MovableEntity, List<CollisionData>>();
 
-            List<CollisionData> contacts = findContacts(entities);
-            foreach (CollisionData cd in contacts)
-                resolveCollision(cd);
+            for (int i = 0; i < entities.Count; i++)
+            {
+                // Do not check against self and do not repeats pairs
+                for (int j = i + 1; j < entities.Count; j++)
+                {
+                    MovableEntity a = entities[i] as MovableEntity;
+                    MovableEntity b = entities[j] as MovableEntity;
 
+                    // Check for collisions. Only add contacts with smaller or equal collision time to map
+                    CollisionData cd = AABB.AABBSweep(a, b);
+                    if (cd != null)
+                    {
+                        if (contactMap.ContainsKey(a))
+                            contactMap[a].Add(cd);
+                        else
+                            contactMap.Add(a, new List<CollisionData>() { cd });
+                    }
+                }
+            }
+
+            // Sort each entity's contacts by time and resolve in order
+            foreach (List<CollisionData> lcd in contactMap.Values)
+            {
+                lcd.Sort();
+                float time = lcd[0].time;
+                foreach (CollisionData cd in lcd)
+                {
+                    if (cd.time <= time)
+                        applyCollision(cd);
+                }
+            }
+
+            // apply aggragate of forces to entities
+            // TODO: can limit this to only Actors, see resolveCollisions
             foreach (MovableEntity e in entities)
                 applyForces(e);
         }
 
         /// <summary>
-        /// Use AABB sweep test to find all contact pairs
+        /// Set force and impulse on Actors
+        /// TODO: Use actor collision type or some finite mass
         /// </summary>
-        public static List<CollisionData> findContacts(List<Entity> entities)
+        public static void applyCollision(CollisionData cd)
         {
-            List<CollisionData> contacts = new List<CollisionData>();
-            Dictionary<MovableEntity, CollisionData> contactMap = new Dictionary<MovableEntity, CollisionData>();
-            
-            foreach (MovableEntity a in entities)
+            Actor a = cd.a as Actor;
+            Actor b = cd.b as Actor;
+            if (a != null)
             {
-                foreach (MovableEntity b in entities)
-                {
-                    bool repeat = contactMap.ContainsKey(a) && contactMap[a].b == a || contactMap.ContainsKey(b) && contactMap[b].a == b;
-                    if (a != b && !repeat)
-                    {
-                        CollisionData cd = AABB.AABBSweep(a, b);
-                        if (cd != null)
-                        {
-                            if (!contactMap.ContainsKey(a))
-                            {
-                                contactMap.Add(a, cd);
-                            }
-                            else if (cd.time < contactMap[a].time)
-                            {
-                                contactMap.Remove(a);
-                                contactMap.Add(a, cd);
-                            }
-                            else if (cd.time == contactMap[a].time)
-                            {
-                                // TODO: don't use a dict. Need multiple in case of two collisions at exact same time
-                                contacts.Add(cd);
-                            }
-                        }
-                    }
-                }
+                // Calculate the force caused by the collision
+                Vector2 fa = a.setForce(cd.b, cd.time, cd.times);
+
+                // Apply the impulse caused by orthogonal velocity
+                a.setImpulse(fa, cd.time, cd.times);
             }
-            contacts.AddRange(contactMap.Values.ToList<CollisionData>());
-            return contacts;
+            if (b != null)
+            {
+                Vector2 fb = b.setForce(cd.a, cd.time, cd.times);
+                b.setImpulse(fb, cd.time, cd.times);
+            }
         }
 
-        public static void resolveCollision(CollisionData cd)
-        {
-            // Calculate the force caused by the collision
-            Vector2 fa = cd.a.setForce(cd.b, cd.time, cd.times);
-            Vector2 fb = cd.b.setForce(cd.a, cd.time, cd.times);
-
-            // Apply the impulse caused by orthogonal velocity
-            cd.a.setImpulse(fa, cd.time, cd.times);
-            cd.b.setImpulse(fb, cd.time, cd.times);
-        }
-
+        /// <summary>
+        /// Applies all of the forces applied on this entity for this timestep
+        /// </summary>
         public static void applyForces(MovableEntity e)
         {
             Vector2? force = applyVector(e.forces);
@@ -83,18 +92,21 @@ namespace SlidingBlockPlatformer
             e.forces = new List<Vector2>();
         }
 
+        /// <summary>
+        /// Applies all of the imuplses applied on this entity during the previous timestep
+        /// </summary>
         public static void applyImpulses(MovableEntity e)
         {
             Vector2? impulse = applyVector(e.impulses);
             if (impulse.HasValue)
-            {
                 e.velocity += impulse.Value;
-                e.position += impulse.Value;
-            }
             e.impulses = new List<Vector2>();
         }
 
-
+        /// <summary>
+        /// Returns the vector with the max value in each dimension from all vectors in the given list
+        /// Zero will overwrite any value
+        /// </summary>
         public static Vector2? applyVector(List<Vector2> vectors)
         {
             if (vectors == null)
@@ -103,22 +115,18 @@ namespace SlidingBlockPlatformer
             Vector2? vector = null;
             foreach (Vector2 v in vectors)
             {
-                if (!vector.HasValue && v != Vector2.Zero)
+                if (v == Vector2.Zero)
+                    continue;
+                else if (!vector.HasValue && v != Vector2.Zero)
                     vector = v;
-                else if (v != Vector2.Zero)
+                else
                 {
                     float fX = vector.Value.X;
                     float fY = vector.Value.Y;
-                    if (vector.Value.X != 0)
-                    {
-                        if (Math.Abs(v.X) > Math.Abs(vector.Value.X))
-                            fX = v.X;
-                    }
-                    if (vector.Value.Y != 0)
-                    {
-                        if (Math.Abs(v.Y) > Math.Abs(vector.Value.Y))
-                            fY = v.Y;
-                    }
+                    if (vector.Value.X != 0 && Math.Abs(v.X) > Math.Abs(vector.Value.X))
+                        fX = v.X;
+                    if (vector.Value.Y != 0 && Math.Abs(v.Y) > Math.Abs(vector.Value.Y))
+                        fY = v.Y;
                     vector = new Vector2(fX, fY);
                 }
             }

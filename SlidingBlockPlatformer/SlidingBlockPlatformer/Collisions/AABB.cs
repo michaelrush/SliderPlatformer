@@ -16,10 +16,12 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SlidingBlockPlatformer
 {
+    // TODO: This should either inherit from BoundingBox and belong to MovableEntity or replace Entity
     public static class AABB
     {
         /// <summary>
         /// AABB Sweep in two dimensions
+        /// TODO: These need to be Entities, or new AABB type
         /// </summary>
         public static CollisionData AABBSweep(MovableEntity a, MovableEntity b)
         {
@@ -152,6 +154,46 @@ namespace SlidingBlockPlatformer
                 case 1: v.Y = r; break;
                 default: return;
             }
+        }
+
+        /// <summary>
+        /// Min vector to remove a from b
+        /// </summary>
+        public static Vector2 minimumTranslation(MovableEntity a, MovableEntity b)
+        {
+            Vector2 amin = new Vector2(min(a, 0), min(a, 1));
+            Vector2 amax = new Vector2(max(a, 0), max(a, 1));
+            Vector2 bmin = new Vector2(min(b, 0), min(b, 1));
+            Vector2 bmax = new Vector2(max(b, 0), max(b, 1));
+
+            Vector2 mtd = new Vector2();
+
+            float left = (bmin.X - amax.X);
+            float right = (bmax.X - amin.X);
+            float top = (bmin.Y - amax.Y);
+            float bottom = (bmax.Y - amin.Y);
+
+            // box dont intersect   
+            if (left > 0 || right < 0) return Vector2.Zero;
+            if (top > 0 || bottom < 0) return Vector2.Zero;
+
+            // box intersect. work out the mtd on both x and y axes.
+            if (Math.Abs(left) < right)
+                mtd.X = left;
+            else
+                mtd.X = right;
+
+            if (Math.Abs(top) < bottom)
+                mtd.Y = top;
+            else
+                mtd.Y = bottom;
+
+            // 0 the axis with the largest mtd value.
+            if (Math.Abs(mtd.X) < Math.Abs(mtd.Y))
+                mtd.Y = 0;
+            else
+                mtd.X = 0;
+            return mtd;
         }
     }
 }

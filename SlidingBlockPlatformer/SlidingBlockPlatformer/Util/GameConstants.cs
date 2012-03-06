@@ -10,5 +10,9 @@ namespace SlidingBlockPlatformer
     {
         public const int BackBufferWidth = 960;
         public const int BackBufferHeight = 600;
+
+        // used for float comparions
+        // TODO: is this necessary?
+        public static float epsilon = 0.000009f;
     }
 }

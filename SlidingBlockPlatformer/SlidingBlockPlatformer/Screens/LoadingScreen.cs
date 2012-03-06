@@ -28,7 +28,7 @@ namespace SlidingBlockPlatformer
         {
             // Invokes load then close delegates in a new thread.
             // TODO: Remove thread sleep once loading testing is complete
-            loadingThread = new Thread(() => { Thread.Sleep(1000); loadMethod.DynamicInvoke(loadArgs); completeMethod.DynamicInvoke(); });
+            loadingThread = new Thread(() => { /* Thread.Sleep(1000); */ loadMethod.DynamicInvoke(loadArgs); completeMethod.DynamicInvoke(); });
             loadingThread.Priority = ThreadPriority.Highest;
             loadingThread.Start();
         }

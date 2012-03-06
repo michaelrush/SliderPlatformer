@@ -37,6 +37,7 @@ namespace SlidingBlockPlatformer
         {
             prevPosition = position;
             velocity = Vector2.Zero;
+            CollisionManager.applyImpulses(this);
             float timeMod = gameTime.ElapsedGameTime.Milliseconds;
             KeyboardState ks = Keyboard.GetState();
 

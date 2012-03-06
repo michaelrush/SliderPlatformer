@@ -51,7 +51,7 @@ namespace SlidingBlockPlatformer
         {
             player.Update(gameTime);
             tilemap.Update(gameTime);
-            CollisionManager.updateCollisions(entities);
+            CollisionManager.resolveCollisions(entities);
         }
 
         /// <summary>
